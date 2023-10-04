@@ -1,3 +1,3 @@
-export default function Layout() {
-  return <div></div>;
-}
+const Layout = () => <div>Test</div>;
+
+export default Layout;
