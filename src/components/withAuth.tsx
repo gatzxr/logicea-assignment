@@ -1,8 +1,9 @@
-import useAuthContext from 'contexts/AuthContext';
 import { ComponentType } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 
 import useToaster from 'hooks/useToaster';
+
+import useAuthContext from 'contexts/AuthContext';
 
 export default function withAuth<T extends object>(
   WrappedComponent: ComponentType<T>
@@ -12,6 +13,9 @@ export default function withAuth<T extends object>(
     const { toastError } = useToaster();
     const location = useLocation();
 
+    if (isLoggedIn === null) {
+      return null;
+    }
     if (isLoggedIn && location.pathname === '/login') {
       return <Navigate to="/" />;
     }

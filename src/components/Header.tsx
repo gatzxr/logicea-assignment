@@ -1,13 +1,13 @@
-import useAuthContext from 'contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-import useTheme from 'hooks/useTheme';
+import useAuthContext from 'contexts/AuthContext';
+import useThemeContext from 'contexts/ThemeContext';
 
 import { PrimaryButton } from './Buttons';
 
 export default function Header() {
   const navigate = useNavigate();
-  const { toggleTheme, theme } = useTheme();
+  const { toggleTheme, theme } = useThemeContext();
   const { logOut } = useAuthContext();
   return (
     <div className="flex h-[60px] items-center justify-between bg-gray-300 px-5 transition dark:bg-gray-800">

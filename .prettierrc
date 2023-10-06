@@ -13,7 +13,7 @@
     "(components/)",
     "hooks/",
     "utils/",
-    "context/",
+    "contexts/",
     "^../(.*)$",
     "^[./]"
   ],

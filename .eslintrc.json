@@ -26,6 +26,7 @@
     "react/destructuring-assignment": "off",
     "react/require-default-props": "off",
     "react/function-component-definition": "off",
+    "no-debugger": "off",
     "import/extensions": [
       "error",
       "ignorePackages",

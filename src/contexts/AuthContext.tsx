@@ -23,12 +23,11 @@ export function AuthContextProvider({
 }: {
   children: ReactNode;
 }): ReactElement {
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState<boolean | null>(null);
+
   useEffect(() => {
     const token: string | null = localStorage.getItem(TOKEN);
-    if (token) {
-      setLoggedIn(true);
-    }
+    setLoggedIn(!!token);
   }, []);
 
   const logOut = useCallback(() => {
@@ -43,7 +42,7 @@ export function AuthContextProvider({
 
   const value: IAuthContext = useMemo(
     () => ({
-      isLoggedIn,
+      isLoggedIn: isLoggedIn as boolean,
       logOut,
       logIn
     }),

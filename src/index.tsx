@@ -1,8 +1,10 @@
 import App from 'App';
-import { AuthContextProvider } from 'contexts/AuthContext';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+
+import { AuthContextProvider } from 'contexts/AuthContext';
+import { ThemeContextProvider } from 'contexts/ThemeContext';
 
 import './index.css';
 
@@ -13,9 +15,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <>
     <AuthContextProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ThemeContextProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThemeContextProvider>
     </AuthContextProvider>
     <ToastContainer />
   </>
