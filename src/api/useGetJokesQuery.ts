@@ -12,8 +12,8 @@ export type Joke = {
 };
 
 export type QueryParams = {
-  page: number;
-  limit: number;
+  page: string;
+  limit: string;
 };
 
 export default function useGetJokesQuery(
@@ -25,5 +25,9 @@ export default function useGetJokesQuery(
     url: `/jokes?_page=${query.page}&_limit=${query.limit}`
   });
 
-  return useQuery<Joke[], Error>('jokes', request, options);
+  return useQuery<Joke[], Error>(
+    ['jokes', query.limit, query.page],
+    request,
+    options
+  );
 }
