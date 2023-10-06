@@ -27,6 +27,7 @@
     "react/require-default-props": "off",
     "react/function-component-definition": "off",
     "react/no-array-index-key": "off",
+    "no-return-await": "off",
     "no-debugger": "off",
     "no-unused-vars": "warn",
     "import/extensions": [

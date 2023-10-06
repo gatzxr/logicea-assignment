@@ -11,9 +11,10 @@
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
     "(components/)",
+    "api/",
+    "contexts/",
     "hooks/",
     "utils/",
-    "contexts/",
     "^../(.*)$",
     "^[./]"
   ],

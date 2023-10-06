@@ -1,9 +1,9 @@
 import { ComponentType } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 
-import useToaster from 'hooks/useToaster';
-
 import useAuthContext from 'contexts/AuthContext';
+
+import useToaster from 'hooks/useToaster';
 
 export default function withAuth<T extends object>(
   WrappedComponent: ComponentType<T>

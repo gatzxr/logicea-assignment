@@ -21,7 +21,8 @@ export default function Table<T>({ columns, data }: ITable<T>) {
   const renderCell = (row: T, column: ColumnOption<T>) => {
     if (column.renderCell) return column.renderCell(row);
 
-    return column.fieldSelector && (row as any)[column.fieldSelector] // eslint-disable-line
+    return column.fieldSelector &&
+      (row as any)[column.fieldSelector] !== undefined // eslint-disable-line
       ? (row as any)[column.fieldSelector] // eslint-disable-line
       : '-';
   };
