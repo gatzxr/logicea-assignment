@@ -2,8 +2,9 @@ import useAuthContext from 'contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 import { PrimaryButton } from './Buttons';
+import withAuth from './withAuth';
 
-export default function Login() {
+function Login() {
   const navigate = useNavigate();
   const { logIn } = useAuthContext();
 
@@ -19,3 +20,5 @@ export default function Login() {
     </div>
   );
 }
+
+export default withAuth(Login);
