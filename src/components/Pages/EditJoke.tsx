@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { LabelInput } from 'components/Inputs';
 
@@ -23,20 +23,20 @@ type JokeFormValues = Omit<Joke, 'id'>;
 function EditJoke({ isNew }: IEditJoke) {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { state } = useLocation();
   const { toastError, toastSuccess } = useToaster();
-
-  const { data, isLoading: isLoadingJoke } = useGetJokeQuery(id!, {
-    enabled: !!id,
-    onError: () => {
-      toastError('Error fetching joke!');
-    }
-  });
   const { mutateAsync: updateJokeAsync, isLoading: isLoadingUpdate } =
     useUpdateJokeQuery(id!);
   const { mutateAsync: createJokeAsync, isLoading: isLoadingCreate } =
     useCreateJokeQuery();
   const { mutateAsync: deleteJokeAsync, isLoading: isLoadingDelete } =
     useDeleteJokeQuery();
+  const { data, isLoading: isLoadingJoke } = useGetJokeQuery(id!, {
+    enabled: !!id && !isNew,
+    onError: () => {
+      toastError('Error fetching joke!');
+    }
+  });
 
   const [formValues, setFormValues] = useState<JokeFormValues>({
     author: '',
@@ -62,9 +62,16 @@ function EditJoke({ isNew }: IEditJoke) {
     setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
+  const goBack = () => {
+    if (state?.page && state?.limit) {
+      navigate(`/jokes?page=${state.page}&limit=${state.limit}`);
+      return;
+    }
+    navigate('/jokes');
+  };
+
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
     try {
       if (isNew) {
         await createJokeAsync(formValues);
@@ -72,6 +79,7 @@ function EditJoke({ isNew }: IEditJoke) {
         await updateJokeAsync(formValues);
       }
       toastSuccess(`Joke ${isNew ? 'created' : 'updated'} successfully`);
+      goBack();
     } catch (error) {
       toastError(
         `Something went wrong when ${isNew ? 'creating' : 'updating'} joke!`
@@ -83,6 +91,7 @@ function EditJoke({ isNew }: IEditJoke) {
     try {
       await deleteJokeAsync(id!);
       toastSuccess('Joke deleted successfully');
+      goBack();
     } catch (error) {
       toastError(`Something went wrong when deleting joke!`);
     }
@@ -91,7 +100,7 @@ function EditJoke({ isNew }: IEditJoke) {
   return (
     <div className="h-full p-10">
       <div className="flex gap-2.5">
-        <PrimaryButton text="Go back" onClick={() => navigate(-1)} />
+        <PrimaryButton text="Go back" onClick={goBack} />
         {!isNew && id && (
           <DeleteButton
             text="Delete"
@@ -117,6 +126,7 @@ function EditJoke({ isNew }: IEditJoke) {
           />
           <LabelInput
             title="Author"
+            pattern="^[a-zA-Z0-9_\-\.]+@([a-zA-Z0-9_\-]+\.)+[a-zA-Z0-9_\-]{2,4}$"
             isLoading={isLoadingJoke}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               onValueChange('author', e.target.value)
@@ -147,12 +157,18 @@ function EditJoke({ isNew }: IEditJoke) {
             title="Views"
             isLoading={isLoadingJoke}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              onValueChange('views', e.target.value)
+              onValueChange(
+                'views',
+                !Number.isNaN(parseInt(e.target.value, 10))
+                  ? parseInt(e.target.value, 10).toString()
+                  : ''
+              )
             }
             value={formValues.views || ''}
             type="number"
             id="views"
             placeholder="Type views"
+            min="0"
             required
           />
           <PrimaryButton

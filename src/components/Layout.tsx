@@ -5,7 +5,7 @@ import Header from './Header';
 
 export default function Layout(): ReactElement {
   return (
-    <div className="w-screem h-screen overflow-hidden bg-gray-200 transition duration-200 dark:bg-gray-700">
+    <div className="w-screem h-screen overflow-y-auto bg-gray-200 transition duration-200 dark:bg-gray-700">
       <Header />
       <Outlet />
     </div>
