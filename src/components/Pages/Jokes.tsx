@@ -63,7 +63,7 @@ function Jokes() {
       <Link to="/jokes/new">
         <PrimaryButton text="Add new joke" />
       </Link>
-      <div className="mt-10 flex h-full w-full flex-col items-center justify-center">
+      <div className="mt-10 flex min-h-[700px] w-full flex-col items-center justify-between">
         {isLoadingJokes ? (
           <Spinner size="lg" />
         ) : (
