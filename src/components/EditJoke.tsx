@@ -135,7 +135,7 @@ function EditJoke({ isNew }: IEditJoke) {
           <PrimaryButton
             type="submit"
             text="Submit"
-            isLoading={isLoadingUpdate || isLoadingCreate}
+            isLoading={isLoadingUpdate || isLoadingCreate || isLoadingJoke}
           />
         </form>
       </div>
