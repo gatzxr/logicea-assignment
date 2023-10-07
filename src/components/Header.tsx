@@ -10,7 +10,10 @@ export default function Header() {
   const { toggleTheme, theme } = useThemeContext();
   const { logOut } = useAuthContext();
   return (
-    <div className="flex h-[60px] items-center justify-between bg-gray-300 px-5 transition dark:bg-gray-800">
+    <div
+      data-cy="app-header"
+      className="flex h-[60px] items-center justify-between bg-gray-300 px-5 transition dark:bg-gray-800"
+    >
       <span className="text-lg font-bold transition dark:text-white">
         JokeApp
       </span>
@@ -19,6 +22,7 @@ export default function Header() {
           className="capitalize"
           text={theme === 'dark' ? 'light' : 'dark'}
           onClick={toggleTheme}
+          data-cy="theme-toggle"
         />
         <PrimaryButton
           text="Logout"

@@ -71,7 +71,7 @@ function EditJoke({ isNew }: IEditJoke) {
       } else {
         await updateJokeAsync(formValues);
       }
-      toastSuccess('Joke updated successfully');
+      toastSuccess(`Joke ${isNew ? 'created' : 'updated'} successfully`);
     } catch (error) {
       toastError(
         `Something went wrong when ${isNew ? 'creating' : 'updating'} joke!`

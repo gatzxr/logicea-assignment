@@ -15,7 +15,7 @@ const columns: ColumnOption<Joke>[] = [
   {
     columnTitle: 'Title',
     renderCell: (joke: Joke) => (
-      <Link to={`/jokes/${joke.id}`} className="font-bold">
+      <Link to={`/jokes/${joke.id}`} className="font-bold" data-cy="joke-title">
         {joke.title}
       </Link>
     )

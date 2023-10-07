@@ -14,6 +14,7 @@ interface ISelect {
 export default function Select({ value, onChange, options }: ISelect) {
   return (
     <select
+      data-cy="select"
       value={value}
       onChange={(e) => onChange(e.target.value)}
       className="block w-full cursor-pointer rounded-lg border bg-blue-950 p-2.5 text-sm text-white dark:bg-blue-200 dark:text-black"

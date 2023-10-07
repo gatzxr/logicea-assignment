@@ -21,6 +21,7 @@ export default function TableControls({
   return (
     <>
       <PrimaryButton
+        data-cy="prev-page"
         className="rounded-[50%]"
         disabled={prevDisabled}
         onClick={() => onPageUpdate((parseInt(currentPage, 10) - 1).toString())}
@@ -29,6 +30,7 @@ export default function TableControls({
       </PrimaryButton>
       <span className="mt-2.5 dark:text-white">{currentPage}</span>
       <PrimaryButton
+        data-cy="next-page"
         className="rounded-[50%]"
         disabled={nextDisabled}
         onClick={() => onPageUpdate((parseInt(currentPage, 10) + 1).toString())}

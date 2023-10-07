@@ -11,3 +11,7 @@ stop:
 	docker rm $(CONTAINER_NAME)
 clean: stop
 	docker rmi $(IMAGE_NAME)
+tests:
+	npm run cypress:open
+tests-bg:
+	npm run cypress:bg
