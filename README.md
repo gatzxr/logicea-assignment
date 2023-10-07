@@ -1,3 +1,78 @@
+**Table of contents**
+
+1. [Introduction](#introduction)
+2. [How to run](#how-to-run)
+
+## <a name="introduction"> Introduction </a>
+
+The goal of this assigment was to create "Jokes" app where a user can browse, edit, create, delete jokes.
+
+## <a name="how-to-run"> How to run </a>
+
+**Running locally**
+
+First you need to install all dependencies with the following command:
+
+```bash
+npm install
+```
+
+To run the app run the following command:
+
+```bash
+npm run start
+```
+
+**Running in container**
+
+You can also run the app inside a docker container. You can use the following make commands to build, run and clean the container.
+
+- Build the image:
+
+```bash
+make build-app
+```
+
+- Run the app:
+
+```bash
+make run
+```
+
+- Build and run the app:
+
+```bash
+make start
+```
+
+- Stop the container:
+
+```bash
+make stop
+```
+
+- Stop the container and cleanup:
+
+```bash
+make clean
+```
+
+**Running the e2e test**
+
+You can run the e2e with the following command with the client running:
+
+- Cypress Test Runner UI
+
+```bash
+make tests
+```
+
+- Cypress Headless mode
+
+```bash
+make tests-bg
+```
+
 # Assignment
 
 ## API
