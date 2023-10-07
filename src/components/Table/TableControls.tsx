@@ -1,5 +1,5 @@
-import { PrimaryButton } from './Buttons';
-import Select from './Select';
+import { PrimaryButton } from '../Buttons';
+import { Select } from '../Inputs';
 
 interface ITableControls {
   currentPage: string;

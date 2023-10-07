@@ -2,15 +2,17 @@ import { format } from 'date-fns';
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { LabelInput } from 'components/Inputs';
+
 import useCreateJokeQuery from 'api/useCreateJokeMutation';
+import useDeleteJokeQuery from 'api/useDeleteJokeMutation';
 import useGetJokeQuery, { Joke } from 'api/useGetJokeQuery';
 import useUpdateJokeQuery from 'api/useUpdateJokeMutation';
 
 import useToaster from 'hooks/useToaster';
 
-import { PrimaryButton } from './Buttons';
-import LabelInput from './LabelInput';
-import withAuth from './withAuth';
+import { DeleteButton, PrimaryButton } from '../Buttons';
+import withAuth from '../withAuth';
 
 interface IEditJoke {
   isNew: boolean;
@@ -33,6 +35,8 @@ function EditJoke({ isNew }: IEditJoke) {
     useUpdateJokeQuery(id!);
   const { mutateAsync: createJokeAsync, isLoading: isLoadingCreate } =
     useCreateJokeQuery();
+  const { mutateAsync: deleteJokeAsync, isLoading: isLoadingDelete } =
+    useDeleteJokeQuery();
 
   const [formValues, setFormValues] = useState<JokeFormValues>({
     author: '',
@@ -75,9 +79,28 @@ function EditJoke({ isNew }: IEditJoke) {
     }
   };
 
+  const onDelete = async () => {
+    try {
+      await deleteJokeAsync(id!);
+      toastSuccess('Joke deleted successfully');
+    } catch (error) {
+      toastError(`Something went wrong when deleting joke!`);
+    }
+  };
+
   return (
     <div className="h-full p-10">
-      <PrimaryButton text="Go back" onClick={() => navigate(-1)} />
+      <div className="flex gap-2.5">
+        <PrimaryButton text="Go back" onClick={() => navigate(-1)} />
+        {!isNew && id && (
+          <DeleteButton
+            text="Delete"
+            onClick={onDelete}
+            isLoading={isLoadingDelete}
+            disabled={isLoadingJoke}
+          />
+        )}
+      </div>
       <div className="flex h-full items-center justify-center">
         <form className="max-w-[50%]" onSubmit={onSubmit}>
           <LabelInput
@@ -135,6 +158,7 @@ function EditJoke({ isNew }: IEditJoke) {
           <PrimaryButton
             type="submit"
             text="Submit"
+            disabled={isLoadingDelete}
             isLoading={isLoadingUpdate || isLoadingCreate || isLoadingJoke}
           />
         </form>

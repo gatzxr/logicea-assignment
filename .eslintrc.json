@@ -29,7 +29,7 @@
     "react/no-array-index-key": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "no-return-await": "off",
-    "no-debugger": "off",
+    "no-debugger": "warn",
     "no-unused-vars": "warn",
     "import/extensions": [
       "error",

@@ -2,13 +2,14 @@ import clsx from 'clsx';
 import { format } from 'date-fns';
 import { Link, useSearchParams } from 'react-router-dom';
 
+import Table, { ColumnOption } from 'components/Table';
+import TableControls from 'components/Table/TableControls';
+
 import useGetJokesQuery, { Joke } from 'api/useGetJokesQuery';
 
-import { PrimaryButton } from './Buttons';
-import Spinner from './Spinner';
-import Table, { ColumnOption } from './Table';
-import TableControls from './TableControls';
-import withAuth from './withAuth';
+import { PrimaryButton } from '../Buttons';
+import Spinner from '../Spinner';
+import withAuth from '../withAuth';
 
 const columns: ColumnOption<Joke>[] = [
   {

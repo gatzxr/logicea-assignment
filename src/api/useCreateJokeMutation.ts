@@ -4,11 +4,6 @@ import useAuthenticatedRequest from 'contexts/AxiosContext';
 
 import { Joke } from './useGetJokeQuery';
 
-export type QueryParams = {
-  page: string;
-  limit: string;
-};
-
 export default function useCreateJokeQuery() {
   const request = useAuthenticatedRequest({
     method: 'POST',

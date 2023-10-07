@@ -1,10 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import EditJoke from 'components/EditJoke';
-import Jokes from 'components/Jokes';
 import Layout from 'components/Layout';
-import Login from 'components/Login';
-import NotFound from 'components/NotFound';
+import { EditJoke, Jokes, Login, NotFound } from 'components/Pages';
 
 export default function App() {
   return (
