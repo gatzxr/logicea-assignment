@@ -68,7 +68,13 @@ function Jokes() {
 
   return (
     <div className="p-10">
-      <Link to="/jokes/new">
+      <Link
+        to="/jokes/new"
+        state={{
+          page: queryParams.get('page')!,
+          limit: queryParams.get('limit')!
+        }}
+      >
         <PrimaryButton text="Add new joke" />
       </Link>
       <div className="mt-10 flex min-h-[700px] w-full flex-col items-center justify-between">
