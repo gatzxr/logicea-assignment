@@ -34,13 +34,13 @@ export default function useAuthenticatedRequest(options: AxiosRequestConfig) {
   const navigate = useNavigate();
   const axiosInstance = useContext(AxiosContext);
 
-  return async () => {
+  return async (runtimeOptions: AxiosRequestConfig) => {
     if (!isLoggedIn) {
       toastError('You need to be logged in to perform this request.');
       navigate('/login');
     }
 
-    const res = await axiosInstance(options);
+    const res = await axiosInstance({ ...options, ...runtimeOptions });
     return res.data;
   };
 }

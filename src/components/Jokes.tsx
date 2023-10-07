@@ -5,6 +5,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import useGetJokesQuery, { Joke } from 'api/useGetJokesQuery';
 
 import { PrimaryButton } from './Buttons';
+import Spinner from './Spinner';
 import Table, { ColumnOption } from './Table';
 import TableControls from './TableControls';
 import withAuth from './withAuth';
@@ -58,16 +59,18 @@ function Jokes() {
 
   return (
     <div className="p-10">
-      <PrimaryButton>
-        <Link to="/jokes/new">Add new joke</Link>
-      </PrimaryButton>
+      <Link to="/jokes/new">
+        <PrimaryButton text="Add new joke" />
+      </Link>
       <div className="mt-10 flex h-full w-full flex-col items-center justify-center">
         {isLoadingJokes ? (
-          <span className="text-xl dark:text-white">Loading...</span>
+          <Spinner size="lg" />
         ) : (
           <>
             <Table columns={columns} data={jokes || []} />
-            {jokes?.length === 0 && <span>No results</span>}
+            {jokes?.length === 0 && (
+              <span className="dark:text-white">No results</span>
+            )}
           </>
         )}
         <div className="mt-5 flex justify-center gap-4">

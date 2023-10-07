@@ -12,8 +12,8 @@ export default function App() {
       <Route path="/" element={<Navigate to="/jokes" />} />
       <Route path="/jokes" element={<Layout />}>
         <Route index element={<Jokes />} />
-        <Route path=":id" element={<EditJoke />} />
-        <Route path="new" element={<EditJoke />} />
+        <Route path="new" element={<EditJoke isNew />} />
+        <Route path=":id" element={<EditJoke isNew={false} />} />
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="*" element={<NotFound />} />

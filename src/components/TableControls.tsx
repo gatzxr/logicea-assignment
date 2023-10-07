@@ -27,7 +27,7 @@ export default function TableControls({
       >
         {'<'}
       </PrimaryButton>
-      <span className="mt-2.5">{currentPage}</span>
+      <span className="mt-2.5 dark:text-white">{currentPage}</span>
       <PrimaryButton
         className="rounded-[50%]"
         disabled={nextDisabled}

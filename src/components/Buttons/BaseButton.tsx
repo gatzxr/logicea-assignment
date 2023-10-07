@@ -2,8 +2,11 @@ import clsx from 'clsx';
 import { ButtonHTMLAttributes, ReactElement, ReactNode } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-export type BaseButtonType = ButtonHTMLAttributes<HTMLButtonElement> &
-  (
+import Spinner from 'components/Spinner';
+
+export type BaseButtonType = ButtonHTMLAttributes<HTMLButtonElement> & {
+  isLoading?: boolean;
+} & (
     | {
         children: ReactNode;
         text?: never;
@@ -16,6 +19,7 @@ export type BaseButtonType = ButtonHTMLAttributes<HTMLButtonElement> &
 
 interface IBaseButton extends ButtonHTMLAttributes<HTMLButtonElement> {
   text?: string;
+  isLoading?: boolean;
 }
 
 export default function BaseButton({
@@ -23,11 +27,12 @@ export default function BaseButton({
   children,
   className,
   disabled,
+  isLoading,
   ...restProps
 }: IBaseButton): ReactElement {
   return (
     <button
-      disabled={disabled}
+      disabled={disabled || isLoading}
       className={twMerge(
         clsx({
           'cursor-pointer rounded-lg border border-gray-400 px-4 py-2 shadow-lg transition hover:drop-shadow-xl':
@@ -39,7 +44,11 @@ export default function BaseButton({
       )}
       {...restProps}
     >
-      {children ?? <span className="text-sm font-bold">{text}</span>}
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        children ?? <span className="text-sm font-bold">{text}</span>
+      )}
     </button>
   );
 }
