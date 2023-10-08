@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { ReactNode, createContext, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,7 +28,10 @@ export function AxiosContextProvider({
   );
 }
 
-export default function useAuthenticatedRequest(options: AxiosRequestConfig) {
+export default function useAuthenticatedRequest(
+  options: AxiosRequestConfig
+  // eslint-disable-next-line
+): (runtimeOptions: AxiosRequestConfig) => Promise<AxiosResponse> {
   const { toastError } = useToaster();
   const { isLoggedIn } = useAuthContext();
   const navigate = useNavigate();
@@ -40,7 +43,6 @@ export default function useAuthenticatedRequest(options: AxiosRequestConfig) {
       navigate('/login');
     }
 
-    const res = await axiosInstance({ ...options, ...runtimeOptions });
-    return res.data;
+    return await axiosInstance({ ...options, ...runtimeOptions });
   };
 }

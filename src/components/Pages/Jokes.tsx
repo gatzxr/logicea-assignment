@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { format } from 'date-fns';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 import Table, { ColumnOption } from 'components/Table';
 import TableControls from 'components/Table/TableControls';
@@ -11,16 +12,28 @@ import { PrimaryButton } from '../Buttons';
 import Spinner from '../Spinner';
 import withAuth from '../withAuth';
 
-function Jokes() {
-  const [queryParams, setQueryParams] = useSearchParams({
-    page: '1',
-    limit: '10'
-  });
+const defaultParams = {
+  page: '1',
+  limit: '10'
+};
 
+function Jokes() {
+  const [queryParams, setQueryParams] = useSearchParams(defaultParams);
+  const navigate = useNavigate();
   const { data: jokes, isLoading: isLoadingJokes } = useGetJokesQuery({
     page: queryParams.get('page')!,
     limit: queryParams.get('limit')!
   });
+
+  useEffect(() => {
+    const page = parseInt(queryParams.get('limit')!, 10);
+    const limit = parseInt(queryParams.get('limit')!, 10);
+    if (page <= 0 || (limit !== 5 && limit !== 10)) {
+      navigate(
+        `/jokes?page=${defaultParams.page}&limit=${defaultParams.limit}`
+      );
+    }
+  }, [queryParams, navigate]);
 
   const columns: ColumnOption<Joke>[] = [
     {
@@ -82,8 +95,8 @@ function Jokes() {
           <Spinner size="lg" />
         ) : (
           <>
-            <Table columns={columns} data={jokes || []} />
-            {jokes?.length === 0 && (
+            <Table columns={columns} data={jokes.items || []} />
+            {jokes.items.length === 0 && (
               <span className="dark:text-white">No results</span>
             )}
           </>
@@ -94,12 +107,14 @@ function Jokes() {
             currentLimit={queryParams.get('limit')!}
             prevDisabled={queryParams.get('page') === '1'}
             nextDisabled={
-              !jokes || jokes.length < parseInt(queryParams.get('limit')!, 10)
+              parseInt(queryParams.get('limit')!, 10) *
+                parseInt(queryParams.get('page')!, 10) >=
+              jokes.totalCount
             }
             onPageUpdate={(value: string) =>
               setQueryParams((prev) => ({
-                limit: prev.get('limit')!,
-                page: value
+                page: value,
+                limit: prev.get('limit')!
               }))
             }
             onLimitUpdate={(value: string) =>

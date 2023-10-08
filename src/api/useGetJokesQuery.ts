@@ -1,4 +1,5 @@
-import { UseQueryOptions, useQuery } from 'react-query';
+import { AxiosResponse } from 'axios';
+import { UseQueryOptions, UseQueryResult, useQuery } from 'react-query';
 
 import useAuthenticatedRequest from 'contexts/AxiosContext';
 
@@ -16,18 +17,29 @@ export type QueryParams = {
   limit: string;
 };
 
+type Response = Omit<UseQueryResult, 'data'> & {
+  data: { totalCount: number; items: Joke[] };
+};
+
 export default function useGetJokesQuery(
   query: QueryParams,
-  options?: UseQueryOptions<Joke[], Error>
-) {
+  options?: UseQueryOptions<AxiosResponse<Joke[]>, Error>
+): Response {
   const request = useAuthenticatedRequest({
     method: 'GET',
     url: `/jokes?_page=${query.page}&_limit=${query.limit}`
   });
 
-  return useQuery<Joke[], Error>(
+  const { data, ...rest } = useQuery<AxiosResponse<Joke[]>, Error>(
     ['jokes', query.limit, query.page],
     request,
     options
   );
+
+  return {
+    ...rest,
+    data: data
+      ? { totalCount: data.headers['x-total-count'], items: data.data }
+      : ({ totalCount: 0, items: [] } as { totalCount: number; items: Joke[] })
+  } as Response;
 }

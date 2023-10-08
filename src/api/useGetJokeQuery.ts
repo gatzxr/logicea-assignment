@@ -1,4 +1,5 @@
-import { UseQueryOptions, useQuery } from 'react-query';
+import { AxiosResponse } from 'axios';
+import { UseQueryOptions, UseQueryResult, useQuery } from 'react-query';
 
 import useAuthenticatedRequest from 'contexts/AxiosContext';
 
@@ -18,12 +19,21 @@ export type QueryParams = {
 
 export default function useGetJokeQuery(
   id: string,
-  options?: UseQueryOptions<Joke, Error>
-) {
+  options?: UseQueryOptions<AxiosResponse<Joke>, Error>
+): UseQueryResult<Joke> {
   const request = useAuthenticatedRequest({
     method: 'GET',
     url: `/jokes/${id}`
   });
 
-  return useQuery<Joke, Error>(['jokes', id], request, options);
+  const { data, ...rest } = useQuery<AxiosResponse<Joke>, Error>(
+    ['jokes', id],
+    request,
+    options
+  );
+
+  return {
+    ...rest,
+    data: data?.data
+  } as UseQueryResult<Joke>;
 }
