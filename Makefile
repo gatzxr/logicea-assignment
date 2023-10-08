@@ -11,6 +11,7 @@ stop:
 	docker rm $(CONTAINER_NAME)
 clean: stop
 	docker rmi $(IMAGE_NAME)
+# Client needs to be running in order to run the tests
 tests:
 	npm run cypress:open
 tests-bg:

@@ -17,6 +17,12 @@ First you need to install all dependencies with the following command:
 npm install
 ```
 
+You need to create a `.env.development` file under root and set the api url:
+
+```bash
+REACT_APP_API_URL=https://randomuser.me/api
+```
+
 To run the app run the following command:
 
 ```bash

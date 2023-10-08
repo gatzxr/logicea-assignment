@@ -9,13 +9,15 @@ import { AuthContextProvider } from 'contexts/AuthContext';
 import { AxiosContextProvider } from 'contexts/AxiosContext';
 import { ThemeContextProvider } from 'contexts/ThemeContext';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
 const queryClient = new QueryClient();
 
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>
-        <AxiosContextProvider baseURL="https://retoolapi.dev/vcv4zy/">
+        <AxiosContextProvider baseURL={API_BASE_URL || ''}>
           <ThemeContextProvider>
             <BrowserRouter>
               <Routes>
