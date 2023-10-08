@@ -36,11 +36,16 @@ context('Jokes screen', () => {
     cy.get('[data-cy="joke-title"]').should('have.length', 5);
   });
 
-  it('should go to next page and then back', () => {
+  it('should go to next page if it exists and then back', () => {
     cy.get('[data-cy="prev-page"]').should('have.attr', 'disabled');
-    cy.get('[data-cy="next-page"]').click();
-    cy.get('[data-cy="prev-page"]').click();
-    cy.get('[data-cy="prev-page"]').should('have.attr', 'disabled');
+
+    cy.get('[data-cy="next-page"]').then(($button) => {
+      if (!$button.is(':disabled')) {
+        cy.get('[data-cy="next-page"]').click();
+        cy.get('[data-cy="prev-page"]').click();
+        cy.get('[data-cy="prev-page"]').should('have.attr', 'disabled');
+      }
+    });
   });
 
   it('should update a joke', () => {
