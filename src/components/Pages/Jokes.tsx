@@ -1,25 +1,22 @@
 import clsx from 'clsx';
 import { format } from 'date-fns';
-import { useEffect } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import Table, { ColumnOption } from 'components/Table';
 import TableControls from 'components/Table/TableControls';
 
 import useGetJokesQuery, { Joke } from 'api/useGetJokesQuery';
 
+import useJokesRouteValidation, {
+  defaultParams
+} from 'hooks/useJokesRouteValidation';
+
 import { PrimaryButton } from '../Buttons';
 import Spinner from '../Spinner';
 import withAuth from '../withAuth';
 
-const defaultParams = {
-  page: '1',
-  limit: '10'
-};
-
 function Jokes() {
   const [queryParams, setQueryParams] = useSearchParams(defaultParams);
-  const navigate = useNavigate();
   const {
     data: jokes,
     isLoading: isLoadingJokes,
@@ -28,28 +25,12 @@ function Jokes() {
     page: queryParams.get('page')!,
     limit: queryParams.get('limit')!
   });
-
-  useEffect(() => {
-    const page = parseInt(queryParams.get('page')!, 10);
-    if (
-      jokes.items.length === 0 &&
-      !isLoadingJokes &&
-      !isFetchingJokes &&
-      page > 1
-    ) {
-      navigate(`/jokes?page=${page - 1}&limit=${queryParams.get('limit')!}`);
-    }
-  }, [jokes.items, queryParams, navigate, isLoadingJokes, isFetchingJokes]);
-
-  useEffect(() => {
-    const page = parseInt(queryParams.get('page')!, 10);
-    const limit = parseInt(queryParams.get('limit')!, 10);
-    if (page <= 0 || (limit !== 5 && limit !== 10)) {
-      navigate(
-        `/jokes?page=${defaultParams.page}&limit=${defaultParams.limit}`
-      );
-    }
-  }, [queryParams, navigate]);
+  useJokesRouteValidation({
+    jokes: jokes.items,
+    totalCount: jokes.totalCount,
+    isLoading: isLoadingJokes || isFetchingJokes,
+    queryParams
+  });
 
   const columns: ColumnOption<Joke>[] = [
     {

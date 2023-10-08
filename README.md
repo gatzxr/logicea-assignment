@@ -17,7 +17,7 @@ First you need to install all dependencies with the following command:
 npm install
 ```
 
-You need to create a `.env.development` file under root and set the api url:
+You need to create a `.env.development` (or `.env.pruduction` if you want to run the production build) file under root and set the api url:
 
 ```bash
 REACT_APP_API_URL=https://retoolapi.dev/vcv4zy/

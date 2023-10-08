@@ -39,7 +39,10 @@ export default function useGetJokesQuery(
   return {
     ...rest,
     data: data
-      ? { totalCount: data.headers['x-total-count'], items: data.data }
-      : ({ totalCount: 0, items: [] } as { totalCount: number; items: Joke[] })
+      ? {
+          totalCount: parseInt(data.headers['x-total-count'], 10),
+          items: data.data
+        }
+      : { totalCount: 0, items: [] }
   } as Response;
 }
