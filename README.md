@@ -20,7 +20,7 @@ npm install
 You need to create a `.env.development` file under root and set the api url:
 
 ```bash
-REACT_APP_API_URL=https://randomuser.me/api
+REACT_APP_API_URL=https://retoolapi.dev/vcv4zy/
 ```
 
 To run the app run the following command:
