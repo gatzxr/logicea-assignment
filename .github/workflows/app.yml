@@ -12,8 +12,7 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-        env:
-          REACT_APP_API_URL: ${{ secrets.JOKES }}
+
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -24,6 +23,8 @@ jobs:
 
       - name: Start the App
         run: npm start &
+        env:
+          REACT_APP_API_URL: ${{ secrets.JOKES }}
 
       - name: Wait for App to Start
         run: |
